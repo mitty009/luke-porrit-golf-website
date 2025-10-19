@@ -5,27 +5,7 @@ export default function Coaching() {
   const { openBooking } = useBookingModal();
 
   const lessonGroups = [
-    {
-      heading: "Current Golfers",
-      desc: "For returning clients continuing their progress with Luke’s structured coaching program.",
-      lessons: [
-        {
-          title: "Returning Session (30 mins)",
-          desc: "Returning client booking a 30-minute golf lesson.",
-          price: "$50.00",
-          duration: "30 mins",
-          url: "https://book.squareup.com/appointments/wa99y87slsquot/location/L7MDG562W78VE/services/VW577TFJ4BFLKT2C7L2NKSEG?savt=73f2c89a-27be-4417-be3d-847094329ff8",
-        },
-        {
-          title: "Returning Session (60 mins)",
-          desc: "Returning client booking a 60-minute golf lesson.",
-          price: "$90.00",
-          duration: "1 hr",
-          url: "https://book.squareup.com/appointments/wa99y87slsquot/location/L7MDG562W78VE/services/C2ULBKSZUUTBBX4K6ACKDKRT?savt=73f2c89a-27be-4417-be3d-847094329ff8",
-        },
-      ],
-    },
-    {
+     {
       heading: "Initial Sessions",
       desc: "For new clients — start your journey with a detailed initial assessment.",
       lessons: [
@@ -42,6 +22,26 @@ export default function Coaching() {
           price: "$90.00",
           duration: "1 hr",
           url: "https://book.squareup.com/appointments/wa99y87slsquot/location/L7MDG562W78VE/services/NJTOV7XKAM34KUTACX7VI3QK?savt=73f2c89a-27be-4417-be3d-847094329ff8",
+        },
+      ],
+    },
+    {
+      heading: "Returning Golfers",
+      desc: "For returning clients continuing their progress with Luke’s structured coaching program.",
+      lessons: [
+        {
+          title: "Returning Session (30 mins)",
+          desc: "Returning client booking a 30-minute golf lesson.",
+          price: "$50.00",
+          duration: "30 mins",
+          url: "https://book.squareup.com/appointments/wa99y87slsquot/location/L7MDG562W78VE/services/VW577TFJ4BFLKT2C7L2NKSEG?savt=73f2c89a-27be-4417-be3d-847094329ff8",
+        },
+        {
+          title: "Returning Session (60 mins)",
+          desc: "Returning client booking a 60-minute golf lesson.",
+          price: "$90.00",
+          duration: "1 hr",
+          url: "https://book.squareup.com/appointments/wa99y87slsquot/location/L7MDG562W78VE/services/C2ULBKSZUUTBBX4K6ACKDKRT?savt=73f2c89a-27be-4417-be3d-847094329ff8",
         },
       ],
     },
