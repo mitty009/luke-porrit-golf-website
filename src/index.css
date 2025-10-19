@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+/* Dark site baseline */
+html, body, #root { height: 100%; }
+body { @apply bg-gray-950 text-gray-100 antialiased; }
+
+/* Tailwind v4 theme tokens (brand green) */
+@theme {
+  --color-brand-50:  #ebfff4;
+  --color-brand-100: #c6ffdf;
+  --color-brand-200: #90ffc4;
+  --color-brand-300: #4fffa3;
+  --color-brand-400: #22e07b;
+  --color-brand-500: #16a34a;
+  --color-brand-600: #128a3e;
+  --color-brand-700: #0f6f33;
+  --color-brand-800: #0d592a;
+  --color-brand-900: #0b4a23;
+  --color-brand-950: #052e16;
+}
+
+/* Reusable UI */
+.btn-primary {
+  @apply inline-flex items-center justify-center rounded-md px-4 py-2
+         bg-brand-500 text-white hover:bg-brand-600 focus:outline-none
+         focus:ring-2 focus:ring-brand-500/60 focus:ring-offset-2
+         focus:ring-offset-gray-950;
+}
+.container-max { @apply max-w-6xl mx-auto px-4; }
+.link-underline { @apply relative; }
+.link-underline::after {
+  content: "";
+  @apply absolute left-0 -bottom-0.5 h-0.5 w-0 bg-brand-400 transition-all;
+}
+.link-underline:hover::after,
+.link-underline[aria-current="page"]::after { @apply w-full; }
