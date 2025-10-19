@@ -2,7 +2,6 @@
   publish = "dist"
   command = "npm run build"
 
-# ✅ Serve XML and TXT files with the correct MIME types
 [[headers]]
   for = "/*.xml"
   [headers.values]
@@ -12,9 +11,3 @@
   for = "/*.txt"
   [headers.values]
   Content-Type = "text/plain; charset=utf-8"
-
-# Optional caching rules
-[[headers]]
-  for = "/*"
-  [headers.values]
-  Cache-Control = "public, max-age=0, must-revalidate"
