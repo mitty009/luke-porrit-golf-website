@@ -1,4 +1,3 @@
-// src/components/Coaching.tsx
 import { motion } from "framer-motion";
 import { useBookingModal } from "../context/BookingModalContext";
 
@@ -15,14 +14,14 @@ export default function Coaching() {
           desc: "Returning client booking a 30-minute golf lesson.",
           price: "$50.00",
           duration: "30 mins",
-          url: "https://luke-porritt.square.site/product/golf-lesson-returning-session-30-mins/123",
+          url: "https://book.squareup.com/appointments/wa99y87slsquot/location/L7MDG562W78VE/services/VW577TFJ4BFLKT2C7L2NKSEG?savt=73f2c89a-27be-4417-be3d-847094329ff8",
         },
         {
           title: "Returning Session (60 mins)",
           desc: "Returning client booking a 60-minute golf lesson.",
           price: "$90.00",
           duration: "1 hr",
-          url: "https://luke-porritt.square.site/product/golf-lesson-returning-session-60-mins/123",
+          url: "https://book.squareup.com/appointments/wa99y87slsquot/location/L7MDG562W78VE/services/C2ULBKSZUUTBBX4K6ACKDKRT?savt=73f2c89a-27be-4417-be3d-847094329ff8",
         },
       ],
     },
@@ -35,14 +34,14 @@ export default function Coaching() {
           desc: "New client booking an initial 30-minute golf lesson.",
           price: "$50.00",
           duration: "30 mins",
-          url: "https://luke-porritt.square.site/product/golf-lesson-initial-session-30-mins/123",
+          url: "https://book.squareup.com/appointments/wa99y87slsquot/location/L7MDG562W78VE/services/Y2CHM76YN75AMJ36ZQXE7A5S?savt=73f2c89a-27be-4417-be3d-847094329ff8",
         },
         {
           title: "Initial Session (60 mins)",
           desc: "New client booking an initial 60-minute golf lesson.",
           price: "$90.00",
           duration: "1 hr",
-          url: "https://luke-porritt.square.site/product/golf-lesson-initial-session-60-mins/123",
+          url: "https://book.squareup.com/appointments/wa99y87slsquot/location/L7MDG562W78VE/services/NJTOV7XKAM34KUTACX7VI3QK?savt=73f2c89a-27be-4417-be3d-847094329ff8",
         },
       ],
     },
@@ -51,11 +50,11 @@ export default function Coaching() {
       desc: "Tailored lessons for young golfers focusing on fundamentals, fun, and improvement.",
       lessons: [
         {
-          title: "Junior Lesson",
+          title: "Junior Lesson (45 mins)",
           desc: "Private coaching session for junior golfers focused on skill development and enjoyment.",
           price: "$60.00",
           duration: "45 mins",
-          url: "https://luke-porritt.square.site/product/junior-lesson/123",
+          url: "https://book.squareup.com/appointments/wa99y87slsquot/location/L7MDG562W78VE/services/37OLVYN7H62B35VE24F6SKWD?savt=73f2c89a-27be-4417-be3d-847094329ff8",
         },
       ],
     },
@@ -66,6 +65,7 @@ export default function Coaching() {
       id="coaching"
       className="relative bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950 text-gray-100 py-24 px-6 md:px-10 lg:px-20"
     >
+      {/* Header */}
       <div className="max-w-6xl mx-auto text-center mb-16">
         <motion.h2
           className="text-4xl md:text-5xl font-bold mb-4 text-white"
@@ -94,7 +94,7 @@ export default function Coaching() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: i * 0.1 }}
-          className="max-w-6xl mx-auto mb-16"
+          className="max-w-6xl mx-auto mb-20 text-center"
         >
           <h3
             className="text-2xl md:text-3xl font-semibold text-brand-400 mb-2"
@@ -102,9 +102,20 @@ export default function Coaching() {
           >
             {group.heading}
           </h3>
-          <p className="text-gray-400 mb-8">{group.desc}</p>
+          <p className="text-gray-400 mb-10 max-w-2xl mx-auto">{group.desc}</p>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div
+            className="
+              grid
+              sm:grid-cols-2
+              lg:grid-cols-3
+              gap-8
+              justify-center
+              items-start
+              mx-auto
+              max-w-[1000px]
+            "
+          >
             {group.lessons.map((lesson, j) => (
               <motion.div
                 key={lesson.title}
@@ -112,7 +123,21 @@ export default function Coaching() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: j * 0.1 }}
-                className="bg-gray-900/60 border border-white/10 rounded-2xl p-6 flex flex-col justify-between shadow-xl hover:shadow-2xl hover:border-brand-400/40 transition-all"
+                className="
+                  bg-gray-900/60 
+                  border border-white/10 
+                  rounded-2xl 
+                  p-6 
+                  flex flex-col 
+                  justify-between 
+                  shadow-xl 
+                  hover:shadow-2xl 
+                  hover:border-brand-400/40 
+                  transition-all 
+                  mx-auto 
+                  w-full 
+                  max-w-[310px]
+                "
               >
                 <div>
                   <h4

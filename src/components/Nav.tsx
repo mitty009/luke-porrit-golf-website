@@ -5,7 +5,7 @@ import { useBookingModal } from "../context/BookingModalContext";
 
 type Item = { href: string; label: string };
 const ITEMS: Item[] = [
-  { href: "#about", label: "About" },
+  { href: "#about", label: "About Me" },
   { href: "#coaching", label: "Coaching" },
   { href: "#record", label: "Track Progress" },
 ];
