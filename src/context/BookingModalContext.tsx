@@ -1,18 +1,34 @@
+// src/context/BookingModalContext.tsx
 import React, { createContext, useCallback, useContext, useMemo, useState } from "react";
 
-type Ctx = {
+type BookingContextType = {
   isOpen: boolean;
-  openBooking: () => void;
+  bookingUrl: string | null;
+  openBooking: (url?: string) => void; // ✅ allow passing URL
   closeBooking: () => void;
 };
 
-const BookingModalContext = createContext<Ctx | null>(null);
+const BookingModalContext = createContext<BookingContextType | null>(null);
 
 export function BookingModalProvider({ children }: { children: React.ReactNode }) {
   const [isOpen, setOpen] = useState(false);
-  const openBooking = useCallback(() => setOpen(true), []);
-  const closeBooking = useCallback(() => setOpen(false), []);
-  const value = useMemo(() => ({ isOpen, openBooking, closeBooking }), [isOpen, openBooking, closeBooking]);
+  const [bookingUrl, setBookingUrl] = useState<string | null>(null);
+
+  const openBooking = useCallback((url?: string) => {
+    if (url) setBookingUrl(url);
+    setOpen(true);
+  }, []);
+
+  const closeBooking = useCallback(() => {
+    setOpen(false);
+    setBookingUrl(null);
+  }, []);
+
+  const value = useMemo(
+    () => ({ isOpen, bookingUrl, openBooking, closeBooking }),
+    [isOpen, bookingUrl, openBooking, closeBooking]
+  );
+
   return <BookingModalContext.Provider value={value}>{children}</BookingModalContext.Provider>;
 }
 

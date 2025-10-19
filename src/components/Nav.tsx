@@ -77,7 +77,7 @@ export default function Nav() {
           ))}
           <li className="pl-2">
             <button
-              onClick={openBooking}
+              onClick={() => openBooking()}
               className="inline-flex items-center justify-center rounded-md px-4 py-2 bg-brand-500 text-white hover:bg-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-500/60 focus:ring-offset-2 focus:ring-offset-gray-950 text-sm font-semibold"
             >
               Book Now

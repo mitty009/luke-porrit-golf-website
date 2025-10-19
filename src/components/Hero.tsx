@@ -46,7 +46,7 @@ export default function Hero() {
         </p>
 
         <motion.button
-          onClick={openBooking}
+          onClick={() => openBooking()}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.97 }}
           className="px-10 py-4 rounded-md bg-brand-500 text-white text-lg font-semibold hover:bg-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-500/60 focus:ring-offset-2 focus:ring-offset-gray-950 transition-all shadow-lg"
