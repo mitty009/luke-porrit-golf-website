@@ -14,8 +14,6 @@ export default function App() {
   return (
     <BookingModalProvider>
       <div className="min-h-screen flex flex-col">
-        import {Helmet} from "react-helmet";
-
         <Helmet>
           {/* Primary Meta */}
           <title>
