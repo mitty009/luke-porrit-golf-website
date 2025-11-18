@@ -5,7 +5,7 @@ export default function Coaching() {
   const { openBooking } = useBookingModal();
 
   const lessonGroups = [
-     {
+    {
       heading: "Initial Sessions",
       desc: "For new clients — start your journey with a detailed initial assessment.",
       lessons: [
@@ -82,91 +82,105 @@ export default function Coaching() {
           className="text-gray-300 text-lg max-w-3xl mx-auto"
           style={{ fontFamily: "Inter, sans-serif" }}
         >
-          Whether you’re a new student or a returning golfer, Luke offers flexible lesson options designed to fit your schedule and skill level.
+          Whether you’re a new student or a returning golfer, Luke offers
+          flexible lesson options designed to fit your schedule and skill level.
         </p>
       </div>
 
       {/* Lesson Groups */}
-      {lessonGroups.map((group, i) => (
-        <motion.div
-          key={group.heading}
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: i * 0.1 }}
-          className="max-w-6xl mx-auto mb-20 text-center"
-        >
-          <h3
-            className="text-2xl md:text-3xl font-semibold text-brand-400 mb-2"
-            style={{ fontFamily: "Playfair Display, serif" }}
-          >
-            {group.heading}
-          </h3>
-          <p className="text-gray-400 mb-10 max-w-2xl mx-auto">{group.desc}</p>
+      {lessonGroups.map((group, i) => {
+        const lessonsCount = group.lessons.length;
 
-          <div
-            className="
-              grid
-              sm:grid-cols-2
-              lg:grid-cols-3
-              gap-8
-              justify-center
-              items-start
-              mx-auto
-              max-w-[1000px]
-            "
-          >
-            {group.lessons.map((lesson, j) => (
-              <motion.div
-                key={lesson.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: j * 0.1 }}
-                className="
-                  bg-gray-900/60 
-                  border border-white/10 
-                  rounded-2xl 
-                  p-6 
-                  flex flex-col 
-                  justify-between 
-                  shadow-xl 
-                  hover:shadow-2xl 
-                  hover:border-brand-400/40 
-                  transition-all 
-                  mx-auto 
-                  w-full 
-                  max-w-[310px]
-                "
-              >
-                <div>
-                  <h4
-                    className="text-xl font-semibold text-white mb-2"
-                    style={{ fontFamily: "Playfair Display, serif" }}
-                  >
-                    {lesson.title}
-                  </h4>
-                  <p className="text-gray-400 mb-4 leading-relaxed">{lesson.desc}</p>
-                </div>
+        // Tailwind-safe column classes based on lesson count
+        const gridColsClass =
+          lessonsCount === 1
+            ? "grid-cols-1 justify-items-center"
+            : lessonsCount === 2
+            ? "grid-cols-1 sm:grid-cols-2 justify-items-center"
+            : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3";
 
-                <div className="flex items-center justify-between text-sm text-gray-300 border-t border-white/10 pt-4 mt-auto">
+        return (
+          <motion.div
+            key={group.heading}
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: i * 0.1 }}
+            className="max-w-6xl mx-auto mb-20 text-center"
+          >
+            <h3
+              className="text-2xl md:text-3xl font-semibold text-brand-400 mb-2"
+              style={{ fontFamily: "Playfair Display, serif" }}
+            >
+              {group.heading}
+            </h3>
+            <p className="text-gray-400 mb-10 max-w-2xl mx-auto">
+              {group.desc}
+            </p>
+
+            <div
+              className={`
+                grid
+                ${gridColsClass}
+                gap-8
+                mx-auto
+                max-w-[1000px]
+              `}
+            >
+              {group.lessons.map((lesson, j) => (
+                <motion.div
+                  key={lesson.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: j * 0.1 }}
+                  className="
+                    bg-gray-900/60 
+                    border border-white/10 
+                    rounded-2xl 
+                    p-6 
+                    flex flex-col 
+                    justify-between 
+                    shadow-xl 
+                    hover:shadow-2xl 
+                    hover:border-brand-400/40 
+                    transition-all 
+                    w-full 
+                    max-w-[310px]
+                    mx-auto
+                  "
+                >
                   <div>
-                    <span className="font-medium">{lesson.price}</span>
-                    <span className="mx-2 text-gray-500">•</span>
-                    <span>{lesson.duration}</span>
+                    <h4
+                      className="text-xl font-semibold text-white mb-2"
+                      style={{ fontFamily: "Playfair Display, serif" }}
+                    >
+                      {lesson.title}
+                    </h4>
+                    <p className="text-gray-400 mb-4 leading-relaxed">
+                      {lesson.desc}
+                    </p>
                   </div>
-                  <button
-                    onClick={() => openBooking(lesson.url)}
-                    className="px-4 py-2 rounded-md bg-brand-500 text-white text-sm font-semibold hover:bg-brand-600 transition"
-                  >
-                    Book Now
-                  </button>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-      ))}
+
+                  <div className="flex items-center justify-between text-sm text-gray-300 border-t border-white/10 pt-4 mt-auto">
+                    <div>
+                      <span className="font-medium">{lesson.price}</span>
+                      <span className="mx-2 text-gray-500">•</span>
+                      <span>{lesson.duration}</span>
+                    </div>
+                    <button
+                      onClick={() => openBooking(lesson.url)}
+                      className="px-4 py-2 rounded-md bg-brand-500 text-white text-sm font-semibold hover:bg-brand-600 transition"
+                    >
+                      Book Now
+                    </button>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        );
+      })}
     </section>
   );
 }

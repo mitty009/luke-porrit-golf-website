@@ -6,6 +6,7 @@ import Coaching from "./components/Coaching";
 import Footer from "./components/Footer";
 import { BookingModalProvider } from "./context/BookingModalContext";
 import BookingModal from "./components/BookingModal";
+import ContactSection from "./components/ContactSection";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Hero />
         <AboutSection />
         <Coaching />
+        <ContactSection />
       </main>
       <Footer />
       <BookingModal />
