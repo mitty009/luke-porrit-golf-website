@@ -27,7 +27,7 @@ export default function Hero({
       id="hero"
       className="
         relative
-        min-h-[68vh]            /* ⬅ a bit shorter on mobile */
+        min-h-[68vh]          /* a bit shorter on mobile */
         sm:min-h-[72vh]
         md:min-h-screen
         w-full
@@ -37,7 +37,7 @@ export default function Hero({
         bg-black
       "
     >
-      {/* Fallback photo – visible until video is ready */}
+      {/* Fallback photo – visible until the video is actually playing */}
       <div
         className={`
           absolute inset-0 z-0
@@ -52,7 +52,7 @@ export default function Hero({
         />
       </div>
 
-      {/* Background video */}
+      {/* Background video layer */}
       <div
         className={`
           absolute inset-0 z-0 overflow-hidden
@@ -60,7 +60,7 @@ export default function Hero({
           ${videoReady ? "opacity-100" : "opacity-0"}
         `}
       >
-        {/* Extra zoom on mobile to fill frame nicely */}
+        {/* Oversized so it covers all aspect ratios */}
         <div className="absolute top-1/2 left-1/2 w-[150vw] h-[150vh] -translate-x-1/2 -translate-y-1/2 md:w-[130vw] md:h-[130vh]">
           <ReactPlayer
             src={videoUrl}
@@ -71,10 +71,6 @@ export default function Hero({
             playsInline
             width="100%"
             height="100%"
-            onReady={() => {
-              // Let YouTube settle, then fade video over the photo
-              setTimeout(() => setVideoReady(true), 400);
-            }}
             config={{
               youtube: {
                 start: START_SECONDS,
@@ -84,14 +80,20 @@ export default function Hero({
                 fs: 0,
               },
             }}
+            // Only once the video is actually playing do we fade it in
+            onPlay={() => {
+              if (!videoReady) {
+                setVideoReady(true);
+              }
+            }}
             style={{
-              pointerEvents: "none", // behave like a background
+              pointerEvents: "none", // acts like a background
             }}
           />
         </div>
       </div>
 
-      {/* Overlay for legibility */}
+      {/* Dark overlay for legibility */}
       <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/85 via-black/60 to-black/20" />
 
       {/* Hero text */}
@@ -100,8 +102,8 @@ export default function Hero({
           relative z-20
           max-w-[90%] sm:max-w-2xl
           px-4 sm:px-6
-          pt-20 pb-10          /* ⬅ tighter padding on mobile */
-          md:pt-28 md:pb-20    /* a bit more air on desktop */
+          pt-20 pb-10           /* tighter on mobile */
+          md:pt-28 md:pb-20
         "
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
