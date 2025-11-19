@@ -66,7 +66,8 @@ export default function Coaching() {
   return (
     <section
       id="coaching"
-      className="relative bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950 text-gray-100 px-6  md:px-10 lg:px-20"
+
+      className="relative bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950 text-gray-100 pt-10 px-6 md:px-10 lg:px-20"
     >
       {/* Header */}
       <div className="max-w-6xl mx-auto text-center mb-16">
