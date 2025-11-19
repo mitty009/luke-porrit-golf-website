@@ -18,7 +18,6 @@ export default function Hero({
   imageSrc = "/media/hero-desktop.JPG", // ✅ your image in public/media/
   title = "Elevate Your Game",
   subtitle = "Master your swing, sharpen your short game, and lower your score.",
-  location = "- Albury / Wodonga -"
 }: HeroProps) {
   return (
     <section
@@ -49,7 +48,7 @@ export default function Hero({
           {subtitle}
         </p>
         <p className="text-sm text-gray-200 mt-3 drop-shadow-md">
-          {location}
+         Thurgoona Country Golf Club <br /> Albury / Wondonga 
         </p>
 
       </motion.div>
