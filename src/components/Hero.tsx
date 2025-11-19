@@ -2,6 +2,8 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import ReactPlayer from "react-player";
+import { useBookingModal } from "../context/BookingModalContext";
+import { DEFAULT_BOOKING_URL } from "../config/booking";
 
 type HeroProps = {
   imageSrc?: string;
@@ -21,6 +23,7 @@ export default function Hero({
 }: HeroProps) {
   const videoUrl = `https://www.youtube.com/watch?v=${VIDEO_ID}`;
   const [videoReady, setVideoReady] = useState(false);
+  const { openBooking } = useBookingModal();
 
   return (
     <section
@@ -80,14 +83,14 @@ export default function Hero({
                 fs: 0,
               },
             }}
-            // Only once the video is actually playing do we fade it in
+            // Fade in ONLY once the video is actually playing
             onPlay={() => {
               if (!videoReady) {
                 setVideoReady(true);
               }
             }}
             style={{
-              pointerEvents: "none", // acts like a background
+              pointerEvents: "none", // behaves like a background
             }}
           />
         </div>
@@ -96,7 +99,7 @@ export default function Hero({
       {/* Dark overlay for legibility */}
       <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/85 via-black/60 to-black/20" />
 
-      {/* Hero text */}
+      {/* Hero text + mobile CTA */}
       <motion.div
         className="
           relative z-20
@@ -107,7 +110,7 @@ export default function Hero({
         "
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, ease: 'easeOut' }}
+        transition={{ duration: 1, ease: "easeOut" }}
       >
         <h1
           className="
@@ -136,6 +139,29 @@ export default function Hero({
         <p className="mt-4 text-[0.65rem] md:text-xs tracking-[0.25em] uppercase text-gray-300 drop-shadow-md">
           {locationTagline}
         </p>
+
+        {/* Mobile-only Book button in the hero */}
+        <div className="mt-6 flex justify-center md:hidden">
+          <button
+            type="button"
+            onClick={() => openBooking(DEFAULT_BOOKING_URL)}
+            className="
+              inline-flex items-center justify-center
+              px-6 py-2.5
+              rounded-full
+              bg-brand-500
+              text-sm font-semibold text-white
+              shadow-md
+              hover:bg-brand-600
+              focus:outline-none
+              focus:ring-2 focus:ring-brand-400/70
+              focus:ring-offset-2 focus:ring-offset-black
+              transition
+            "
+          >
+            Book a Lesson
+          </button>
+        </div>
       </motion.div>
     </section>
   );
