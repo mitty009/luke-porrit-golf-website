@@ -1,6 +1,7 @@
 // src/components/Hero.tsx
 import { motion } from "framer-motion";
 
+
 type HeroProps = {
   /** Path to the hero background image */
   imageSrc?: string;
@@ -17,12 +18,11 @@ export default function Hero({
   imageSrc = "/media/hero-desktop.JPG", // ✅ your image in public/media/
   title = "Elevate Your Game",
   subtitle = "Master your swing, sharpen your short game, and lower your score.",
-  ctaText = "Book a Lesson",
-  ctaLink = "#book",
 }: HeroProps) {
   return (
     <section
       className="relative h-[80vh] md:h-screen w-full flex items-center justify-center text-center bg-black overflow-hidden"
+      id="hero"
       style={{
         backgroundImage: `url(${imageSrc})`,
         backgroundSize: "cover",
@@ -40,7 +40,7 @@ export default function Hero({
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1.2, ease: "easeOut" }}
       >
-        <h1 className="text-4xl md:text-6xl font-extrabold text-white mb-6 leading-tight drop-shadow-lg">
+        <h1  className="text-4xl md:text-6xl font-extrabold text-white mb-6 leading-tight drop-shadow-lg">
           {title}
         </h1>
 
@@ -48,14 +48,6 @@ export default function Hero({
           {subtitle}
         </p>
 
-        {ctaText && (
-          <a
-            href={ctaLink}
-            className="inline-block px-8 py-3 rounded-md bg-brand-500 text-white text-lg font-semibold hover:bg-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-500/60 focus:ring-offset-2 focus:ring-offset-gray-950 transition"
-          >
-            {ctaText}
-          </a>
-        )}
       </motion.div>
     </section>
   );

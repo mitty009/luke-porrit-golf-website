@@ -1,10 +1,9 @@
+// src/components/BookingModal.tsx
 import { useEffect, useRef } from "react";
 import { useBookingModal } from "../context/BookingModalContext";
 
-const SQUARE_SITE = import.meta.env.VITE_SQUARE_SITE_URL || "https://luke-porritt.square.site/";
-
 export default function BookingModal() {
-  const { isOpen, closeBooking } = useBookingModal();
+  const { isOpen, closeBooking, bookingUrl } = useBookingModal();
   const overlayRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -36,8 +35,18 @@ export default function BookingModal() {
             aria-label="Close booking"
             className="inline-flex items-center justify-center w-9 h-9 rounded-md hover:bg-black/5"
           >
-            <svg className="w-5 h-5" viewBox="0 0 24 24" stroke="currentColor" fill="none" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>
+            <svg
+              className="w-5 h-5"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              fill="none"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
           </button>
         </div>
@@ -46,7 +55,7 @@ export default function BookingModal() {
         <div className="w-full h-[70vh] md:h-[75vh]">
           <iframe
             title="Square bookings"
-            src={SQUARE_SITE}
+            src={bookingUrl}
             className="w-full h-full"
             frameBorder="0"
           />

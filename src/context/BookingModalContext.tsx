@@ -1,39 +1,49 @@
 // src/context/BookingModalContext.tsx
-import React, { createContext, useCallback, useContext, useMemo, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  type ReactNode,
+} from "react";
+import { DEFAULT_BOOKING_URL } from "../config/booking";
 
-type BookingContextType = {
+type BookingModalContextValue = {
   isOpen: boolean;
-  bookingUrl: string | null;
-  openBooking: (url?: string) => void; // ✅ allow passing URL
+  bookingUrl: string;
+  openBooking: (url?: string) => void;
   closeBooking: () => void;
 };
 
-const BookingModalContext = createContext<BookingContextType | null>(null);
+const BookingModalContext = createContext<BookingModalContextValue | undefined>(
+  undefined
+);
 
-export function BookingModalProvider({ children }: { children: React.ReactNode }) {
-  const [isOpen, setOpen] = useState(false);
-  const [bookingUrl, setBookingUrl] = useState<string | null>(null);
-
-  const openBooking = useCallback((url?: string) => {
-    if (url) setBookingUrl(url);
-    setOpen(true);
-  }, []);
-
-  const closeBooking = useCallback(() => {
-    setOpen(false);
-    setBookingUrl(null);
-  }, []);
-
-  const value = useMemo(
-    () => ({ isOpen, bookingUrl, openBooking, closeBooking }),
-    [isOpen, bookingUrl, openBooking, closeBooking]
+export function BookingModalProvider({ children }: { children: ReactNode }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [bookingUrl, setBookingUrl] = useState<string>(
+    DEFAULT_BOOKING_URL || "https://luke-porritt.square.site/"
   );
 
-  return <BookingModalContext.Provider value={value}>{children}</BookingModalContext.Provider>;
+  const openBooking = (url?: string) => {
+    setBookingUrl(url || DEFAULT_BOOKING_URL || "https://luke-porritt.square.site/");
+    setIsOpen(true);
+  };
+
+  const closeBooking = () => setIsOpen(false);
+
+  return (
+    <BookingModalContext.Provider
+      value={{ isOpen, bookingUrl, openBooking, closeBooking }}
+    >
+      {children}
+    </BookingModalContext.Provider>
+  );
 }
 
-export function useBookingModal() {
+export function useBookingModal(): BookingModalContextValue {
   const ctx = useContext(BookingModalContext);
-  if (!ctx) throw new Error("useBookingModal must be used within BookingModalProvider");
+  if (!ctx) {
+    throw new Error("useBookingModal must be used within a BookingModalProvider");
+  }
   return ctx;
 }

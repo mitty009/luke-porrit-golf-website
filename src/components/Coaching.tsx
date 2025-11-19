@@ -1,5 +1,8 @@
+// src/sections/Coaching.tsx
 import { motion } from "framer-motion";
 import { useBookingModal } from "../context/BookingModalContext";
+import { BOOKING_SERVICES } from "../config/booking";
+import SectionDivider from "./SectionDivider";
 
 export default function Coaching() {
   const { openBooking } = useBookingModal();
@@ -14,14 +17,14 @@ export default function Coaching() {
           desc: "New client booking an initial 30-minute golf lesson.",
           price: "$50.00",
           duration: "30 mins",
-          url: "https://book.squareup.com/appointments/wa99y87slsquot/location/L7MDG562W78VE/services/Y2CHM76YN75AMJ36ZQXE7A5S?savt=73f2c89a-27be-4417-be3d-847094329ff8",
+          url: BOOKING_SERVICES.initial30,
         },
         {
           title: "Initial Session (60 mins)",
           desc: "New client booking an initial 60-minute golf lesson.",
           price: "$90.00",
           duration: "1 hr",
-          url: "https://book.squareup.com/appointments/wa99y87slsquot/location/L7MDG562W78VE/services/NJTOV7XKAM34KUTACX7VI3QK?savt=73f2c89a-27be-4417-be3d-847094329ff8",
+          url: BOOKING_SERVICES.initial60,
         },
       ],
     },
@@ -34,14 +37,14 @@ export default function Coaching() {
           desc: "Returning client booking a 30-minute golf lesson.",
           price: "$50.00",
           duration: "30 mins",
-          url: "https://book.squareup.com/appointments/wa99y87slsquot/location/L7MDG562W78VE/services/VW577TFJ4BFLKT2C7L2NKSEG?savt=73f2c89a-27be-4417-be3d-847094329ff8",
+          url: BOOKING_SERVICES.returning30,
         },
         {
           title: "Returning Session (60 mins)",
           desc: "Returning client booking a 60-minute golf lesson.",
           price: "$90.00",
           duration: "1 hr",
-          url: "https://book.squareup.com/appointments/wa99y87slsquot/location/L7MDG562W78VE/services/C2ULBKSZUUTBBX4K6ACKDKRT?savt=73f2c89a-27be-4417-be3d-847094329ff8",
+          url: BOOKING_SERVICES.returning60,
         },
       ],
     },
@@ -54,7 +57,7 @@ export default function Coaching() {
           desc: "Private coaching session for junior golfers focused on skill development and enjoyment.",
           price: "$60.00",
           duration: "45 mins",
-          url: "https://book.squareup.com/appointments/wa99y87slsquot/location/L7MDG562W78VE/services/37OLVYN7H62B35VE24F6SKWD?savt=73f2c89a-27be-4417-be3d-847094329ff8",
+          url: BOOKING_SERVICES.junior45,
         },
       ],
     },
@@ -63,7 +66,7 @@ export default function Coaching() {
   return (
     <section
       id="coaching"
-      className="relative bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950 text-gray-100 py-24 px-6 md:px-10 lg:px-20"
+      className="relative bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950 text-gray-100 px-6  md:px-10 lg:px-20"
     >
       {/* Header */}
       <div className="max-w-6xl mx-auto text-center mb-16">
@@ -91,13 +94,13 @@ export default function Coaching() {
       {lessonGroups.map((group, i) => {
         const lessonsCount = group.lessons.length;
 
-        // Tailwind-safe column classes based on lesson count
+        // Column layout & max width based on how many lessons are in this group
         const gridColsClass =
           lessonsCount === 1
-            ? "grid-cols-1 justify-items-center"
+            ? "grid-cols-1 max-w-md"
             : lessonsCount === 2
-            ? "grid-cols-1 sm:grid-cols-2 justify-items-center"
-            : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3";
+            ? "grid-cols-1 sm:grid-cols-2 max-w-3xl"
+            : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-5xl";
 
         return (
           <motion.div
@@ -106,81 +109,107 @@ export default function Coaching() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: i * 0.1 }}
-            className="max-w-6xl mx-auto mb-20 text-center"
+            className="max-w-6xl mx-auto mb-14"
           >
-            <h3
-              className="text-2xl md:text-3xl font-semibold text-brand-400 mb-2"
-              style={{ fontFamily: "Playfair Display, serif" }}
-            >
-              {group.heading}
-            </h3>
-            <p className="text-gray-400 mb-10 max-w-2xl mx-auto">
-              {group.desc}
-            </p>
+            {/* Group container for visual separation */}
+            <div className="relative bg-gray-900/60 border border-white/10 rounded-3xl px-6 py-8 md:px-10 md:py-10 shadow-xl">
+              {/* subtle top accent line */}
+              <div className="absolute inset-x-10 -top-[1px] h-[2px] bg-gradient-to-r from-brand-500/0 via-brand-500/70 to-brand-500/0" />
 
-            <div
-              className={`
-                grid
-                ${gridColsClass}
-                gap-8
-                mx-auto
-                max-w-[1000px]
-              `}
-            >
-              {group.lessons.map((lesson, j) => (
-                <motion.div
-                  key={lesson.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: j * 0.1 }}
-                  className="
-                    bg-gray-900/60 
-                    border border-white/10 
-                    rounded-2xl 
-                    p-6 
-                    flex flex-col 
-                    justify-between 
-                    shadow-xl 
-                    hover:shadow-2xl 
-                    hover:border-brand-400/40 
-                    transition-all 
-                    w-full 
-                    max-w-[310px]
-                    mx-auto
-                  "
-                >
-                  <div>
-                    <h4
-                      className="text-xl font-semibold text-white mb-2"
-                      style={{ fontFamily: "Playfair Display, serif" }}
-                    >
-                      {lesson.title}
-                    </h4>
-                    <p className="text-gray-400 mb-4 leading-relaxed">
-                      {lesson.desc}
-                    </p>
-                  </div>
+              <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10">
+                <div className="text-center md:text-left">
+                  <p className="text-xs uppercase tracking-[0.18em] text-gray-400 mb-2">
+                    {String(i + 1).padStart(2, "0")} · Program Category
+                  </p>
+                  <h3
+                    className="text-2xl md:text-3xl font-semibold text-brand-400 mb-2"
+                    style={{ fontFamily: "Playfair Display, serif" }}
+                  >
+                    {group.heading}
+                  </h3>
+                  <p className="text-gray-400 max-w-2xl">
+                    {group.desc}
+                  </p>
+                </div>
+              </div>
 
-                  <div className="flex items-center justify-between text-sm text-gray-300 border-t border-white/10 pt-4 mt-auto">
-                    <div>
-                      <span className="font-medium">{lesson.price}</span>
-                      <span className="mx-2 text-gray-500">•</span>
-                      <span>{lesson.duration}</span>
+              <div
+                className={`
+                  grid
+                  ${gridColsClass}
+                  gap-8
+                  mx-auto
+                `}
+              >
+                {group.lessons.map((lesson, j) => (
+                  <motion.div
+                    key={lesson.title}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: j * 0.1 }}
+                    className="
+                      bg-gray-950/70 
+                      border border-white/10 
+                      rounded-2xl 
+                      p-6 md:p-7
+                      flex flex-col 
+                      justify-between 
+                      shadow-lg 
+                      hover:shadow-2xl 
+                      hover:border-brand-400/50 
+                      transition-all 
+                      w-full
+                    "
+                  >
+                    <div className="mb-5">
+                      <h4
+                        className="text-xl font-semibold text-white mb-2"
+                        style={{ fontFamily: "Playfair Display, serif" }}
+                      >
+                        {lesson.title}
+                      </h4>
+                      <p className="text-gray-400 text-sm md:text-base leading-relaxed">
+                        {lesson.desc}
+                      </p>
                     </div>
-                    <button
-                      onClick={() => openBooking(lesson.url)}
-                      className="px-4 py-2 rounded-md bg-brand-500 text-white text-sm font-semibold hover:bg-brand-600 transition"
-                    >
-                      Book Now
-                    </button>
-                  </div>
-                </motion.div>
-              ))}
+
+                    <div className="pt-4 mt-auto border-t border-white/10 flex items-center justify-between gap-4 text-sm text-gray-300">
+                      <div className="flex flex-col items-start">
+                        <span className="font-semibold text-white">
+                          {lesson.price}
+                        </span>
+                        <span className="text-gray-400 text-xs mt-0.5">
+                          {lesson.duration}
+                        </span>
+                      </div>
+
+                      <button
+                        onClick={() => openBooking(lesson.url)}
+                        className="px-4 py-2 rounded-md bg-brand-500 text-white text-xs md:text-sm font-semibold hover:bg-brand-600 transition whitespace-nowrap"
+                      >
+                        Book Now
+                      </button>
+
+                      {/* If you prefer direct Square links instead of modal:
+                      <a
+                        href={lesson.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="px-4 py-2 rounded-md bg-brand-500 text-white text-xs md:text-sm font-semibold hover:bg-brand-600 transition whitespace-nowrap"
+                      >
+                        Book Now
+                      </a>
+                      */}
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
             </div>
           </motion.div>
         );
       })}
+      <SectionDivider />
     </section>
   );
 }

@@ -57,7 +57,7 @@ export default function ContactSection() {
   };
 
   return (
-    <section id="contact" className="bg-slate-950 text-slate-50 py-16 lg:py-24">
+    <section id="contact" className="bg-slate-950 text-slate-50 py-16 ">
       <div className="max-w-5xl mx-auto px-4">
         {/* Heading / intro + form */}
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1.4fr)] lg:items-start mb-10">
@@ -67,11 +67,11 @@ export default function ContactSection() {
               Contact
             </p>
             <h2 className="text-3xl lg:text-4xl font-semibold tracking-tight mb-4">
-              Book a lesson with Luke
+              Book a lesson
             </h2>
             <p className="text-slate-300 text-sm lg:text-base mb-4 max-w-md">
               Whether you’re just getting started or looking to fine-tune your
-              scoring clubs, send an enquiry and Luke will follow up with
+              scoring clubs, send an enquiry and you will be contacted with
               available times and options.
             </p>
             <p className="text-xs text-slate-500">
@@ -225,11 +225,11 @@ export default function ContactSection() {
                 >
                   {status === "submitting"
                     ? "Sending..."
-                    : "Send golf lesson enquiry"}
+                    : "Send"}
                 </button>
 
                 <p className="text-[11px] text-slate-500">
-                  By submitting, you agree to be contacted by Luke about golf
+                  By submitting, you agree to be contacted about golf
                   coaching and related services.
                 </p>
               </div>
