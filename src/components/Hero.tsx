@@ -54,16 +54,16 @@ export default function Hero({
         <div className="absolute top-1/2 left-1/2 w-[130vw] h-[130vh] -translate-x-1/2 -translate-y-1/2">
           <ReactPlayer
             ref={playerRef}
-            src={videoUrl}      // ✅ v3 prop
+            src={videoUrl}
             playing
             muted
             loop
             controls={false}
-            playsinline
+            playsInline          // ✅ camelCase prop
             width="100%"
             height="100%"
             onReady={() => {
-              // Jump to 3 seconds once the player is ready
+              // Jump to 20 seconds once the player is ready (adjust as you like)
               if (playerRef.current && typeof playerRef.current.seekTo === "function") {
                 try {
                   playerRef.current.seekTo(20, "seconds");
