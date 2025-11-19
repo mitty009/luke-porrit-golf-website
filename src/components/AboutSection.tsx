@@ -9,8 +9,6 @@ export default function AboutSection() {
     { src: "/media/IMG_6196.JPG", alt: "Luke Porritt putting on green" },
     { src: "/media/IMG_1239.JPG", alt: "Luke Porritt practice session" },
     { src: "/media/RenderedImage.JPEG", alt: "Luke Porritt PGA award" },
-    // { src: "/media/IMG_3948.jpg", alt: "Luke Porritt driving range coaching" },
-    // { src: "/media/IMG_7700.jpg", alt: "Luke Porritt golf event" },
   ];
 
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -34,9 +32,9 @@ export default function AboutSection() {
       className="relative bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950 text-gray-100 px-6 pt-16 md:px-10 lg:px-20 overflow-hidden"
     >
       <div className="max-w-6xl mx-auto grid md:grid-cols-5 gap-12 md:gap-16 items-start">
-        {/* Left — Animated Image Grid (2/5 on desktop) */}
+        {/* Left — Animated Image Grid (2/5 on desktop, second on mobile) */}
         <motion.div
-          className="md:col-span-2 grid grid-cols-2 sm:grid-cols-2 gap-3 md:gap-4"
+          className="order-2 md:order-1 md:col-span-2 grid grid-cols-2 sm:grid-cols-2 gap-3 md:gap-4"
           initial={{ opacity: 0, x: -40 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
@@ -65,9 +63,9 @@ export default function AboutSection() {
           ))}
         </motion.div>
 
-        {/* Right — Biography (3/5 on desktop) */}
+        {/* Right — Biography (3/5 on desktop, first on mobile) */}
         <motion.div
-          className="md:col-span-3 bg-gray-900/60 border border-white/10 rounded-3xl p-6 md:p-8 shadow-xl"
+          className="order-1 md:order-2 md:col-span-3 bg-gray-900/60 border border-white/10 rounded-3xl p-6 md:p-8 shadow-xl"
           initial={{ opacity: 0, x: 40 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
@@ -75,7 +73,10 @@ export default function AboutSection() {
         >
           <h2
             className="text-3xl md:text-4xl font-bold mb-4 text-white"
-            style={{ fontFamily: "Playfair Display, serif" }}
+            style={{
+              fontFamily:
+                "Montserrat, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+            }}
           >
             Meet Luke Porritt
           </h2>
@@ -181,8 +182,8 @@ export default function AboutSection() {
           </motion.div>
         )}
       </AnimatePresence>
-      <div><SectionDivider  /></div>
-      
+
+      <SectionDivider />
     </section>
   );
 }

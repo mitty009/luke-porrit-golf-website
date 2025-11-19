@@ -36,11 +36,10 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all ${
-        scrolled
+      className={`fixed inset-x-0 top-0 z-50 transition-all ${scrolled
           ? "bg-gray-950/90 backdrop-blur border-b border-white/10 shadow-lg"
           : "bg-transparent"
-      }`}
+        }`}
     >
       <nav className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Logo / Brand — scrolls to hero on click */}
@@ -50,9 +49,10 @@ export default function Navbar() {
           className="flex items-center gap-2 focus:outline-none"
         >
           <img
-            src='/luke-porritt-logo.png'
+            src="/luke-porritt-logo.png"
             alt="Luke Porritt Golf"
-            className="h-35 w-auto"
+            className={`w-auto transition-all duration-300 ${scrolled ? "h-18 opacity-100" : "h-18 opacity-25"
+              }`}
           />
         </button>
 
