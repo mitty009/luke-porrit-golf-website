@@ -1,5 +1,5 @@
 // src/components/Hero.tsx
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import ReactPlayer from "react-player";
 
@@ -11,6 +11,7 @@ type HeroProps = {
 };
 
 const VIDEO_ID = "mKysd7txJSM";
+const START_SECONDS = 500;
 
 export default function Hero({
   imageSrc = "/media/hero-desktop.JPG",
@@ -20,14 +21,23 @@ export default function Hero({
 }: HeroProps) {
   const videoUrl = `https://www.youtube.com/watch?v=${VIDEO_ID}`;
   const [videoReady, setVideoReady] = useState(false);
-  const playerRef = useRef<any>(null); // keep TS relaxed here
 
   return (
     <section
       id="hero"
-      className="relative min-h-[80vh] md:min-h-screen w-full flex items-center justify-center text-center text-white overflow-hidden bg-black"
+      className="
+        relative
+        min-h-[68vh]            /* ⬅ a bit shorter on mobile */
+        sm:min-h-[72vh]
+        md:min-h-screen
+        w-full
+        flex items-center justify-center
+        text-center text-white
+        overflow-hidden
+        bg-black
+      "
     >
-      {/* Fallback image */}
+      {/* Fallback photo – visible until video is ready */}
       <div
         className={`
           absolute inset-0 z-0
@@ -42,7 +52,7 @@ export default function Hero({
         />
       </div>
 
-      {/* Background video layer */}
+      {/* Background video */}
       <div
         className={`
           absolute inset-0 z-0 overflow-hidden
@@ -50,49 +60,65 @@ export default function Hero({
           ${videoReady ? "opacity-100" : "opacity-0"}
         `}
       >
-        {/* Oversized so the 16:9 video fully covers the viewport on all aspect ratios */}
-        <div className="absolute top-1/2 left-1/2 w-[130vw] h-[130vh] -translate-x-1/2 -translate-y-1/2">
+        {/* Extra zoom on mobile to fill frame nicely */}
+        <div className="absolute top-1/2 left-1/2 w-[150vw] h-[150vh] -translate-x-1/2 -translate-y-1/2 md:w-[130vw] md:h-[130vh]">
           <ReactPlayer
-            ref={playerRef}
             src={videoUrl}
             playing
             muted
             loop
             controls={false}
-            playsInline          // ✅ camelCase prop
+            playsInline
             width="100%"
             height="100%"
             onReady={() => {
-              // Jump to 20 seconds once the player is ready (adjust as you like)
-              if (playerRef.current && typeof playerRef.current.seekTo === "function") {
-                try {
-                  playerRef.current.seekTo(20, "seconds");
-                } catch {
-                  // ignore if seek fails – video will still play
-                }
-              }
-              // Small delay so YouTube UI settles before we fade it in
+              // Let YouTube settle, then fade video over the photo
               setTimeout(() => setVideoReady(true), 400);
             }}
+            config={{
+              youtube: {
+                start: START_SECONDS,
+                // modestbranding: 1,
+                rel: 0,
+                disablekb: 1,
+                fs: 0,
+              },
+            }}
             style={{
-              pointerEvents: "none", // behave like a background, not an interactive player
+              pointerEvents: "none", // behave like a background
             }}
           />
         </div>
       </div>
 
-      {/* Dark overlay above image + video */}
-      <div className="absolute inset-0 z-10 bg-black/55" />
+      {/* Overlay for legibility */}
+      <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/85 via-black/60 to-black/20" />
 
-      {/* Hero text content */}
+      {/* Hero text */}
       <motion.div
-        className="relative z-20 max-w-2xl px-6 pb-16 pt-24 md:pt-32"
-        initial={{ opacity: 0, y: 25 }}
+        className="
+          relative z-20
+          max-w-[90%] sm:max-w-2xl
+          px-4 sm:px-6
+          pt-20 pb-10          /* ⬅ tighter padding on mobile */
+          md:pt-28 md:pb-20    /* a bit more air on desktop */
+        "
+        initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.2, ease: "easeOut" }}
+        transition={{ duration: 1, ease: 'easeOut' }}
       >
         <h1
-          className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-6 leading-tight drop-shadow-lg"
+          className="
+            text-3xl
+            xs:text-4xl
+            md:text-5xl
+            lg:text-6xl
+            font-extrabold
+            text-white
+            mb-3 md:mb-5
+            leading-tight
+            drop-shadow-lg
+          "
           style={{
             fontFamily:
               "Montserrat, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
@@ -101,11 +127,11 @@ export default function Hero({
           {title}
         </h1>
 
-        <p className="text-lg md:text-xl text-gray-200 drop-shadow-md">
+        <p className="text-base sm:text-lg md:text-xl text-gray-200 drop-shadow-md">
           {subtitle}
         </p>
 
-        <p className="mt-4 text-[0.7rem] md:text-xs tracking-[0.25em] uppercase text-gray-300 drop-shadow-md">
+        <p className="mt-4 text-[0.65rem] md:text-xs tracking-[0.25em] uppercase text-gray-300 drop-shadow-md">
           {locationTagline}
         </p>
       </motion.div>
