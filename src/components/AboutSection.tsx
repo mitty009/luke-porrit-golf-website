@@ -8,6 +8,7 @@ export default function AboutSection() {
     { src: "/media/IMG_0198.jpg", alt: "Luke Porritt golf swing" },
     { src: "/media/IMG_6196.JPG", alt: "Luke Porritt putting on green" },
     { src: "/media/IMG_1239.JPG", alt: "Luke Porritt practice session" },
+    { src: "/media/golf-bag.jpg", alt: "Golf Bag" },
     { src: "/media/RenderedImage.JPEG", alt: "Luke Porritt PGA award" },
   ];
 
