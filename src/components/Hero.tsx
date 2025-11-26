@@ -77,7 +77,6 @@ export default function Hero({
             config={{
               youtube: {
                 start: START_SECONDS,
-                // modestbranding: 1,
                 rel: 0,
                 disablekb: 1,
                 fs: 0,
