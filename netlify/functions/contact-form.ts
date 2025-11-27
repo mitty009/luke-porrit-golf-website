@@ -7,7 +7,7 @@ import FormData from "form-data";
 const MAILGUN_API_KEY = process.env.MAILGUN_API_KEY;
 const MAILGUN_DOMAIN = process.env.MAILGUN_DOMAIN || "mg.lukeporrittgolf.com.au";
 const CONTACT_TO_EMAIL =
-  process.env.CONTACT_TO_EMAIL || "mitchell.thomas808@gmail.com";
+  process.env.CONTACT_TO_EMAIL || "lukeporritt@pgamember.org.au";
 const CONTACT_FROM_EMAIL =
   process.env.CONTACT_FROM_EMAIL ||
   `Website Enquiries <postmaster@${MAILGUN_DOMAIN}>`;

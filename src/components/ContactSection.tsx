@@ -43,13 +43,17 @@ Message:
 ${mainMessage}
 `.trim();
 
-    const payload = {
-      // match the serverless function’s expected field names
-      name: fullName,
-      email,
-      phone,
-      message: composedMessage,
-    };
+const payload = {
+  fullName, // ✅ matches function's expected field
+  email,
+  phone,
+  enquiryType,
+  enquiryTypeLabel: enquiryTypeLabels[enquiryType] ?? "Other",
+  handicap,
+  preferredTimes,
+  referralSource,
+  message: composedMessage,
+};
 
     try {
       const res = await fetch("/.netlify/functions/contact-form", {
