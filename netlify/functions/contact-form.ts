@@ -1,12 +1,42 @@
 // netlify/functions/contact-form.ts
 import type { Handler } from "@netlify/functions";
+import Mailgun from "mailgun.js";
+import FormData from "form-data";
 
-const MAILGUN_API_KEY = process.env.MAILGUN_API_KEY!;
-const MAILGUN_DOMAIN = process.env.MAILGUN_DOMAIN!;
-const CONTACT_TO_EMAIL = process.env.CONTACT_TO_EMAIL!;
+// ----- Config from environment -----
+const MAILGUN_API_KEY = process.env.MAILGUN_API_KEY;
+const MAILGUN_DOMAIN = process.env.MAILGUN_DOMAIN || "mg.lukeporrittgolf.com.au";
+const CONTACT_TO_EMAIL =
+  process.env.CONTACT_TO_EMAIL || "mitchell.thomas808@gmail.com";
+const CONTACT_FROM_EMAIL =
+  process.env.CONTACT_FROM_EMAIL ||
+  `Website Enquiries <postmaster@${MAILGUN_DOMAIN}>`;
 
-export const handler: Handler = async (event: { httpMethod: string; body: any; }) => {
-  // Only allow POST
+// Use EU endpoint if your domain is EU; otherwise default is fine
+const MAILGUN_BASE_URL =
+  process.env.MAILGUN_BASE_URL || "https://api.mailgun.net";
+
+// Create Mailgun client once per function instance
+const mailgun = new Mailgun(FormData);
+const mg = mailgun.client({
+  username: "api",
+  key: MAILGUN_API_KEY || "",
+  url: MAILGUN_BASE_URL,
+});
+
+type ContactPayload = {
+  fullName: string;
+  email: string;
+  phone?: string;
+  enquiryType?: string;
+  enquiryTypeLabel?: string;
+  handicap?: string;
+  preferredTimes?: string;
+  referralSource?: string;
+  message: string;
+};
+
+export const handler: Handler = async (event) => {
   if (event.httpMethod !== "POST") {
     return {
       statusCode: 405,
@@ -14,83 +44,92 @@ export const handler: Handler = async (event: { httpMethod: string; body: any; }
     };
   }
 
-  if (!MAILGUN_API_KEY || !MAILGUN_DOMAIN || !CONTACT_TO_EMAIL) {
-    console.error("Missing Mailgun env vars");
+  if (!MAILGUN_API_KEY || !MAILGUN_DOMAIN) {
+    console.error("Missing Mailgun config", {
+      hasKey: !!MAILGUN_API_KEY,
+      MAILGUN_DOMAIN,
+    });
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: "Server email configuration error" }),
+      body: JSON.stringify({ error: "Email configuration error" }),
     };
   }
 
+  let data: ContactPayload;
+
   try {
-    const data = JSON.parse(event.body || "{}") as {
-      name?: string;
-      email?: string;
-      phone?: string;
-      message?: string;
+    data = JSON.parse(event.body || "{}") as ContactPayload;
+  } catch (err) {
+    console.error("Invalid JSON body", err);
+    return {
+      statusCode: 400,
+      body: JSON.stringify({ error: "Invalid JSON body" }),
     };
+  }
 
-    const { name, email, phone, message } = data;
+  const {
+    fullName,
+    email,
+    phone,
+    enquiryType,
+    enquiryTypeLabel,
+    handicap,
+    preferredTimes,
+    referralSource,
+    message,
+  } = data;
 
-    if (!name || !email || !message) {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({ error: "Name, email, and message are required." }),
-      };
-    }
+  if (!fullName || !email || !message) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify({
+        error: "Full name, email and message are required.",
+      }),
+    };
+  }
 
-    const subject = `New enquiry from ${name} – Luke Porritt Golf`;
-    const textBody = `
-New enquiry from the website:
+  const subject =
+    enquiryTypeLabel || enquiryType
+      ? `New ${enquiryTypeLabel || enquiryType} enquiry – ${fullName}`
+      : `New coaching enquiry – ${fullName}`;
 
-Name:   ${name}
-Email:  ${email}
-Phone:  ${phone || "N/A"}
+  const textBody = [
+    "New enquiry from the website:",
+    "",
+    `Name: ${fullName}`,
+    `Email: ${email}`,
+    `Mobile: ${phone || "N/A"}`,
+    `Enquiry type: ${enquiryTypeLabel || enquiryType || "N/A"}`,
+    `Handicap / experience: ${handicap || "N/A"}`,
+    `Preferred lesson times: ${preferredTimes || "N/A"}`,
+    `How they heard about Luke: ${referralSource || "N/A"}`,
+    "",
+    "Message:",
+    message,
+  ].join("\n");
 
-Message:
-${message}
-    `.trim();
-
-    // Mailgun API endpoint
-    const url = `https://api.mailgun.net/v3/${MAILGUN_DOMAIN}/messages`;
-
-    // Build form-encoded body
-    const formData = new URLSearchParams();
-    formData.append("from", `Website Enquiries <no-reply@${MAILGUN_DOMAIN}>`);
-    formData.append("to", CONTACT_TO_EMAIL);
-    formData.append("subject", subject);
-    formData.append("text", textBody);
-
-    // Node 18+ on Netlify has global fetch
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        Authorization:
-          "Basic " +
-          Buffer.from(`api:${MAILGUN_API_KEY}`).toString("base64"),
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: formData.toString(),
+  try {
+    const result = await mg.messages.create(MAILGUN_DOMAIN, {
+      from: CONTACT_FROM_EMAIL,
+      to: [CONTACT_TO_EMAIL],
+      subject,
+      text: textBody,
     });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error("Mailgun error:", response.status, errorText);
-      return {
-        statusCode: 502,
-        body: JSON.stringify({ error: "Failed to send email" }),
-      };
-    }
+    console.log("Mailgun message sent", result);
 
     return {
       statusCode: 200,
       body: JSON.stringify({ success: true }),
     };
-  } catch (err) {
-    console.error("Contact form handler error:", err);
+  } catch (error: any) {
+    console.error("Mailgun send error", error);
     return {
-      statusCode: 500,
-      body: JSON.stringify({ error: "Unexpected server error" }),
+      statusCode: 502,
+      body: JSON.stringify({
+        error: "Failed to send email",
+        details: error?.message ?? String(error),
+      }),
     };
   }
 };
