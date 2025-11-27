@@ -23,28 +23,51 @@ export default function ContactSection() {
     const formData = new FormData(form);
 
     const enquiryType = (formData.get("enquiryType") as string) || "other";
+    const fullName = ((formData.get("fullName") as string) ?? "").trim();
+    const email = ((formData.get("email") as string) ?? "").trim();
+    const phone = ((formData.get("phone") as string) ?? "").trim();
+    const handicap = (formData.get("handicap") as string) ?? "";
+    const preferredTimes = (formData.get("preferredTimes") as string) ?? "";
+    const referralSource = (formData.get("referralSource") as string) ?? "";
+    const mainMessage = (formData.get("message") as string) ?? "";
+
+    // This is the single "message" field the Netlify function expects.
+    // We embed all the structured info so Luke gets full context in the email.
+    const composedMessage = `
+Enquiry type: ${enquiryTypeLabels[enquiryType] ?? "Other"}
+Handicap / experience: ${handicap || "Not specified"}
+Preferred lesson times: ${preferredTimes || "Not specified"}
+How they heard about Luke: ${referralSource || "Not specified"}
+
+Message:
+${mainMessage}
+`.trim();
 
     const payload = {
-      fullName: (formData.get("fullName") as string) ?? "",
-      email: (formData.get("email") as string) ?? "",
-      phone: (formData.get("phone") as string) ?? "",
-      enquiryType,
-      enquiryTypeLabel: enquiryTypeLabels[enquiryType] ?? "Other",
-      handicap: (formData.get("handicap") as string) ?? "",
-      preferredTimes: (formData.get("preferredTimes") as string) ?? "",
-      referralSource: (formData.get("referralSource") as string) ?? "",
-      message: (formData.get("message") as string) ?? "",
+      // match the serverless function’s expected field names
+      name: fullName,
+      email,
+      phone,
+      message: composedMessage,
     };
 
     try {
-      const res = await fetch("/.netlify/functions/send-contact-email", {
+      const res = await fetch("/.netlify/functions/contact-form", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
 
       if (!res.ok) {
-        throw new Error("Request failed");
+        // Try to surface any error from the function, otherwise generic
+        let msg = "Request failed";
+        try {
+          const data = await res.json();
+          if (data?.error) msg = data.error;
+        } catch {
+          /* ignore JSON parse errors */
+        }
+        throw new Error(msg);
       }
 
       setStatus("success");
@@ -52,7 +75,9 @@ export default function ContactSection() {
     } catch (err) {
       console.error(err);
       setStatus("error");
-      setError("Something went wrong sending your message. Please try again.");
+      setError(
+        "Something went wrong sending your message. Please try again, or contact Luke directly at his email / phone."
+      );
     }
   };
 
@@ -223,14 +248,12 @@ export default function ContactSection() {
                   disabled={status === "submitting"}
                   className="inline-flex items-center justify-center rounded-full px-6 py-2.5 text-sm font-medium bg-emerald-400 text-slate-950 hover:bg-emerald-300 focus:outline-none focus:ring-2 focus:ring-emerald-400 disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
                 >
-                  {status === "submitting"
-                    ? "Sending..."
-                    : "Send"}
+                  {status === "submitting" ? "Sending..." : "Send"}
                 </button>
 
                 <p className="text-[11px] text-slate-500">
-                  By submitting, you agree to be contacted about golf
-                  coaching and related services.
+                  By submitting, you agree to be contacted about golf coaching
+                  and related services.
                 </p>
               </div>
 
