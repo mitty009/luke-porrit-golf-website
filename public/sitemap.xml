@@ -1,12 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset
   xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
 >
-  <!-- Homepage -->
+  <!-- Main site URL -->
   <url>
     <loc>https://www.lukeporrittgolf.com.au/</loc>
-    <lastmod>2025-11-26</lastmod>
-    <changefreq>weekly</changefreq>
+    <lastmod>2025-11-27</lastmod>
     <priority>1.0</priority>
+
+    <!-- Logo image -->
+    <image:image>
+      <image:loc>
+        https://www.lukeporrittgolf.com.au/luke-porritt-logo.png
+      </image:loc>
+      <image:title>Luke Porritt Golf logo</image:title>
+      <image:caption>Brand logo for Luke Porritt Golf.</image:caption>
+    </image:image>
+
+    <!-- Hero image (optional but recommended) -->
+    <image:image>
+      <image:loc>
+        https://www.lukeporrittgolf.com.au/media/hero-desktop.JPG
+      </image:loc>
+      <image:title>Golf lessons at Thurgoona Country Club Resort</image:title>
+      <image:caption>
+        Luke Porritt Golf coaching at Thurgoona Country Club Resort, Albury / Wodonga.
+      </image:caption>
+    </image:image>
   </url>
 </urlset>
